@@ -53,9 +53,11 @@ module (..., package.seeall)
 --			height = [IMAGE HEIGHT],
 --			top = [IMAGE Y POS],
 --			left = [IMAGE X POS],
---			[speed = [HOW FAST, 0 - 1]],
+--			[speed = [HOW FAST, 0 - 1 for backgrounds, > 1 for foregrounds]],
 --			[repeated = [INF SCROLL, TRUE/FALSE]]
 --		} )
+--
+-- NOTE: Create your layers in order from closest to farthest away
 --
 --
 -- * To add objects to a layer
