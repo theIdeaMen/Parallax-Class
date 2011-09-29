@@ -2,7 +2,7 @@
 -- Parallax Class Demo main.lua
 -- Created by Griffin Adams
 --
--- Version: 0.1
+-- Version: 0.2
 --
 
 local parallax = require( "parallax" )
@@ -27,7 +27,7 @@ local scene = parallax.newScene(
 } )
 
 -- add the near layer
-scene:newLayer(
+local nearLayer = scene:newLayer(
 {
 	image = "parallax_near.png",
 	width = 1280,
@@ -35,6 +35,7 @@ scene:newLayer(
 	top = 0,
 	left = display.screenOriginX
 } )
+nearLayer.alpha = 0.7
 
 -- add the far layer
 scene:newLayer(

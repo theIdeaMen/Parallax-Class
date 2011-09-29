@@ -2,13 +2,14 @@
  PARALLAX CLASS
 ====================================================================
 
- Version: 0.1
+ Version: 0.4
  Made by Griffin Adams ( theIdeaMen ) 2011
  Twitter: http://www.twitter.com/theIdeaMen
  Mail: duff333@gmail.com
 
  You can use and change this class free of purgery or death as long
   as you promise to have fun.
+  MIT Liscence
 
  Thanks to Brent Sorrentino for a great parallax demo, the
   the starting point from witch this class was born.
@@ -18,7 +19,12 @@
 ====================================================================
 
  7-18-2011 - Griffin Adams - Created
-
+ 8-17-2011 - Griffin Adams - newLayer now returns an object
+						   - use yourScene.props.* to access scene properties
+						   - removed 1 pixel overlapping
+ 9-05-2011 - Griffin Adams - replaced module() with table
+ 9-29-2011 - Griffin Adams - Moved helper function
+                           - replaced content* with viewableContent*
 
 ====================================================================
  INFORMATION
