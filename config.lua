@@ -8,6 +8,7 @@ application =
 				fps = 60,
 				scale = "letterbox",
 				
+				
 				imageSuffix =
 				{
 					["@2x"] = 2,

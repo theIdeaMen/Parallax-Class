@@ -2,29 +2,35 @@
  PARALLAX CLASS
 ====================================================================
 
- Version: 0.4
+ Version: 0.5
  Made by Griffin Adams ( theIdeaMen ) 2011
  Twitter: http://www.twitter.com/theIdeaMen
  Mail: duff333@gmail.com
 
- You can use and change this class free of purgery or death as long
-  as you promise to have fun.
-  MIT Liscence
+  MIT License
+ You can use and change this code free of purgery or death as long
+  as you promise to have fun or something along those lines.
 
  Thanks to Brent Sorrentino for a great parallax demo, the
   the starting point from witch this class was born.
+
+ Feedback welcome!
 
 ====================================================================        
  CHANGES
 ====================================================================
 
- 7-18-2011 - Griffin Adams - Created
- 8-17-2011 - Griffin Adams - newLayer now returns an object
-						   - use yourScene.props.* to access scene properties
-						   - removed 1 pixel overlapping
- 9-05-2011 - Griffin Adams - replaced module() with table
- 9-29-2011 - Griffin Adams - Moved helper function
-                           - replaced content* with viewableContent*
+  7-18-2011 - Griffin Adams - Created
+  8-17-2011 - Griffin Adams - newLayer now returns an object
+							- use yourScene.props.* to access scene properties
+							- removed 1 pixel overlapping
+  9-05-2011 - Griffin Adams - replaced module() with table
+  9-29-2011 - Griffin Adams - Moved helper function
+                            - replaced content* with viewableContent*
+ 10-01-2011 - Griffin Adams - replaced viewableContent* with screen size offset factor
+							- multiple fixes for multiple screen sizes
+							- fixed layers that appear to 'jump' if starting position
+							   was anything other than 0
 
 ====================================================================
  INFORMATION
