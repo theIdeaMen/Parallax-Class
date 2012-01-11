@@ -3,7 +3,7 @@ local M = {}
 -- PARALLAX CLASS
 --====================================================================--
 --
--- Version: 0.5
+-- Version: 0.6
 -- Made by Griffin Adams ( theIdeaMen ) 2011
 -- Twitter: http://www.twitter.com/theIdeaMen
 -- Mail: duff333@gmail.com
@@ -32,6 +32,8 @@ local M = {}
 --							  - multiple fixes for multiple screen sizes
 --							  - fixed layers that appear to 'jump' if starting position
 --							     was anything other than 0
+--  1-11-2012 - Bob Dickinson - fixed multiple screen size issues, for real this time
+--              Griffin Adams -
 --
 --====================================================================--
 -- INFORMATION
@@ -91,86 +93,86 @@ local M = {}
 --====================================================================--
 local function limitsHelper( group, worldLimits )
 
-	-- adjust the world limits based on the device screen size
-	local adjustX = display.contentWidth - display.screenOriginX * 2
-	local adjustY = display.contentHeight + display.screenOriginY * 2
+    -- adjust the world limits based on the device screen size
+    local adjustX = display.contentWidth - display.screenOriginX * 2
+    local adjustY = display.contentHeight + display.screenOriginY * 2
 
-	if group.repeated then
+    if group.repeated then
 
-		-- background copy already exists, check if at a limit
-		if group.bgCopy then
-			local bgX, bgY = group.background:localToContent( -group.background.width * 0.5, -group.background.height * 0.5 )
-			local copyX, copyY = group.bgCopy:localToContent( -group.bgCopy.width * 0.5, -group.bgCopy.height * 0.5 )
+        -- background copy already exists, check if at a limit
+        if group.bgCopy then
+            local bgX, bgY = group.background:localToContent( -group.background.width * 0.5, -group.background.height * 0.5 )
+            local copyX, copyY = group.bgCopy:localToContent( -group.bgCopy.width * 0.5, -group.bgCopy.height * 0.5 )
 
-			if bgX > copyX then
-				if bgX < adjustX - group.background.width then
-					group.bgCopy.x = group.background.x + group.background.width
-				end
-				if copyX > 0 then
-					group.background.x = group.bgCopy.x - group.bgCopy.width
-				end
-			elseif bgX < copyX then
-				if copyX < adjustX - group.bgCopy.width then
-					group.background.x = group.bgCopy.x + group.bgCopy.width
-				end
-				if bgX > 0 then
-					group.bgCopy.x = group.background.x - group.background.width
-				end
-			end
-			
-			if bgY > copyY then
-				if bgY < adjustY - group.background.height then
-					group.bgCopy.y = group.background.y + group.background.height
-				end
-				if copyY > 0 then
-					group.background.y = group.bgCopy.y - group.bgCopy.height
-				end
-			elseif bgY < copyY then
-				if copyY < adjustY - group.bgCopy.height then
-					group.background.y = group.bgCopy.y + group.bgCopy.height
-				end
-				if bgY > 0 then
-					group.bgCopy.y = group.background.y - group.background.height
-				end
-			end
-			
-		-- make a copy of this layer background if at a limit
-		elseif group.x > worldLimits.XMin or group.x < adjustX - group.width then
-			group.bgCopy = display.newImageRect( group, group.image, group.width, group.height )
-			group.bgCopy:setReferencePoint( display.TopLeftReferencePoint )
-			group.bgCopy.y = group.background.y
-			if group.x > worldLimits.XMin then
-				group.bgCopy.x = group.background.x - group.background.width
-			else
-				group.bgCopy.x = group.background.x + group.background.width
-			end
-		
-		elseif group.y > worldLimits.YMin or group.y < adjustY - group.height then
-			group.bgCopy = display.newImageRect( group, group.image, group.width, group.height )
-			group.bgCopy:setReferencePoint( display.TopLeftReferencePoint )
-			group.bgCopy.x = group.background.x
-			if group.y > worldLimits.YMin then
-				group.bgCopy.y = group.background.y - group.background.height
-			else
-				group.bgCopy.y = group.background.y + group.background.height
-			end
+            if bgX > copyX then
+                if bgX < adjustX - group.background.width then
+                    group.bgCopy.x = group.background.x + group.background.width
+                end
+                if copyX > worldLimits.XMin then
+                    group.background.x = group.bgCopy.x - group.bgCopy.width
+                end
+            elseif bgX < copyX then
+                if copyX < adjustX - group.bgCopy.width then
+                    group.background.x = group.bgCopy.x + group.bgCopy.width
+                end
+                if bgX > worldLimits.XMin then
+                    group.bgCopy.x = group.background.x - group.background.width
+                end
+            end
+            
+            if bgY > copyY then
+                if bgY < adjustY - group.background.height then
+                    group.bgCopy.y = group.background.y + group.background.height
+                end
+                if copyY > worldLimits.YMin then
+                    group.background.y = group.bgCopy.y - group.bgCopy.height
+                end
+            elseif bgY < copyY then
+                if copyY < adjustY - group.bgCopy.height then
+                    group.background.y = group.bgCopy.y + group.bgCopy.height
+                end
+                if bgY > worldLimits.YMin then
+                    group.bgCopy.y = group.background.y - group.background.height
+                end
+            end
+            
+        -- make a copy of this layer background if at a limit
+        elseif group.x > 0 or group.x < adjustX - group.width then
+            group.bgCopy = display.newImageRect( group, group.image, group.width, group.height )
+            group.bgCopy:setReferencePoint( display.TopLeftReferencePoint )
+            group.bgCopy.y = group.background.y
+            if group.x > 0 then
+                group.bgCopy.x = group.background.x - group.background.width
+            else
+                group.bgCopy.x = group.background.x + group.background.width
+            end
+        
+        elseif group.y > 0 or group.y < adjustY - worldLimits.YMax then
+            group.bgCopy = display.newImageRect( group, group.image, group.width, group.height )
+            group.bgCopy:setReferencePoint( display.TopLeftReferencePoint )
+            group.bgCopy.x = group.background.x
+            if group.y > 0 then
+                group.bgCopy.y = group.background.y - group.background.height
+            else
+                group.bgCopy.y = group.background.y + group.background.height
+            end
 
-		end
-	
-	else -- this layer not repeated so check bounds
-		if group.x > worldLimits.XMin then
-			group.x = worldLimits.XMin
-		end
-		if group.x < adjustX - worldLimits.XMax then
-			group.x = adjustX - worldLimits.XMax
-		end
-		if group.y > worldLimits.YMin then
-			group.y = worldLimits.YMin
-		end
-		if group.y < adjustY - worldLimits.YMax then
-			group.y = adjustY - worldLimits.YMax
-		end
-	end
+        end
+    
+    else -- this layer not repeated so check bounds
+        if group.x > 0 then
+            group.x = 0
+        end
+        if group.x < adjustX - worldLimits.XMax then
+            group.x = adjustX - worldLimits.XMax
+        end
+        if group.y > 0 then
+            group.y = 0
+        end
+        if group.y < adjustY - worldLimits.YMax then
+            group.y = adjustY - worldLimits.YMax
+        end
+    end
 
 end -- end helper
 
@@ -180,122 +182,122 @@ end -- end helper
 --====================================================================--
 local function newScene( params )
 
-	local screenOffsetW = display.contentWidth - display.viewableContentWidth - display.screenOriginX
-	local screenOffsetH = display.contentHeight - display.viewableContentHeight - display.screenOriginY
-	
-	local Group = display.newGroup()
-	Group:setReferencePoint( display.TopLeftReferencePoint )
-	
-	local width = params.width
-	local height = params.height
-	local top = params.top - screenOffsetH
-	local left = params.left - screenOffsetW
-	local infinite = params.infinite or false
-	
-	local moveGroups = {}
-	local groupCount = 1
-	moveGroups[groupCount] = display.newGroup()
-	moveGroups[groupCount].repeated = infinite
-	
-	-- You can get scene properties from this. Ex. 'yourScene.prop.x'
-	Group.prop = moveGroups[groupCount]
-	
-	Group:insert( moveGroups[groupCount] )
-	
-	groupCount = groupCount + 1
-	
-	local worldLimits = { XMin = left, YMin = top, XMax = width + screenOffsetW, YMax = height + screenOffsetH }
-	
-	
+    local screenOffsetW = display.contentWidth - display.viewableContentWidth - display.screenOriginX
+    local screenOffsetH = display.contentHeight - display.viewableContentHeight - display.screenOriginY
+    
+    local Group = display.newGroup()
+    Group:setReferencePoint( display.TopLeftReferencePoint )
+    
+    local width    = params.width
+    local height   = params.height
+    local top      = params.top - screenOffsetH
+    local left     = params.left - screenOffsetW
+    local infinite = params.infinite or false
+    
+    local moveGroups = {}
+    local groupCount = 1
+    moveGroups[groupCount] = display.newGroup()
+    moveGroups[groupCount].repeated = infinite
+    
+    -- You can get scene properties from this. Ex. 'yourScene.prop.x'
+    Group.prop = moveGroups[groupCount]
+    
+    Group:insert( moveGroups[groupCount] )
+    
+    groupCount = groupCount + 1
+    
+    local worldLimits = { XMin = left, YMin = top, XMax = width + screenOffsetW, YMax = height + screenOffsetH }
+    
+    
 --====================================================================--
 --  CREATE NEW IMAGE LAYER
 --====================================================================--	
-	function Group:newLayer( params )
-	
-		local moveGroups = moveGroups
-		
-		moveGroups[groupCount] = display.newGroup()
-		
-		local image = params.image
-		local width = params.width
-		local height = params.height
-		local top = params.top - screenOffsetH
-		local left = params.left - screenOffsetW
-		local speed = params.speed
-		local repeated = params.repeated or false
-		local id = params.id
-	
-		moveGroups[groupCount].background = display.newImageRect( moveGroups[groupCount], image, width, height )
-		moveGroups[groupCount].background:setReferencePoint( display.TopLeftReferencePoint )
-		moveGroups[groupCount].background.x = left
-		moveGroups[groupCount].background.y = top
+    function Group:newLayer( params )
+    
+        local moveGroups = moveGroups
+        
+        moveGroups[groupCount] = display.newGroup()
+        
+        local image    = params.image
+        local width    = params.width
+        local height   = params.height
+        local top      = params.top - screenOffsetH
+        local left     = params.left - screenOffsetW
+        local speed    = params.speed
+        local repeated = params.repeated or false
+        local id       = params.id
 
-		moveGroups[groupCount].image = image
-		moveGroups[groupCount].left = left
-		moveGroups[groupCount].top = top
-		moveGroups[groupCount].speed = speed
-		moveGroups[groupCount].repeated = repeated
-	
-		Group:insert( moveGroups[groupCount] )
-		
-		moveGroups[groupCount]:toBack()
-		
-		groupCount = groupCount + 1
-		
-		return moveGroups[groupCount - 1]
-		
-	end
-	
+        moveGroups[groupCount].background = display.newImageRect( moveGroups[groupCount], image, width, height )
+        moveGroups[groupCount].background:setReferencePoint( display.TopLeftReferencePoint )
+        moveGroups[groupCount].background.x = left
+        moveGroups[groupCount].background.y = top
+
+        moveGroups[groupCount].image = image
+        moveGroups[groupCount].left = left
+        moveGroups[groupCount].top = top
+        moveGroups[groupCount].speed = speed
+        moveGroups[groupCount].repeated = repeated
+    
+        Group:insert( moveGroups[groupCount] )
+        
+        moveGroups[groupCount]:toBack()
+        
+        groupCount = groupCount + 1
+        
+        return moveGroups[groupCount - 1]
+        
+    end
+    
 --====================================================================--
 --  INSERT OBJECT INTO LAYER
 --====================================================================--
-	function Group:insertObj( obj, layer )
+    function Group:insertObj( obj, layer )
 
-		local layer = layer or 1
-		local moveGroups = moveGroups
-		
-		moveGroups[layer]:insert( obj )
-		
-	end
+        local layer = layer or 1
+        local moveGroups = moveGroups
+        
+        moveGroups[layer]:insert( obj )
+        
+    end
 
 --====================================================================--
 --  MOVE THE SCENE
 --====================================================================--	
-	function Group:move( dx, dy )
-	
-		local moveGroups = moveGroups
+    function Group:move( dx, dy )
+    
+        local moveGroups = moveGroups
 
-		-- iterate through the layers and move them
-		for index, layer in ipairs( moveGroups ) do
-		
-			if index == 1 then
-				layer.x = layer.x - dx
-				layer.y = layer.y - dy
+        -- iterate through the layers and move them
+        for index, layer in ipairs( moveGroups ) do
+        
+            if index == 1 then
+                layer.x = layer.x - dx
+                layer.y = layer.y - dy
 
-				if not layer.repeated then
-					limitsHelper( layer, worldLimits )
-				end
-				
-			elseif layer.speed then
-				layer.x = (moveGroups[1].x - layer.left) * layer.speed
-				layer.y = (moveGroups[1].y - layer.top) * layer.speed
-			
-				limitsHelper( layer, worldLimits )
-	
-			else
-				-- assign a speed based on position of layer
-				layer.x = (moveGroups[1].x - layer.left) * 1 / index
-				layer.y = (moveGroups[1].y - layer.top) * 1 / index
-				
-				limitsHelper( layer, worldLimits )
+                if not layer.repeated then
+                    limitsHelper( layer, worldLimits )
+                end
+                
+            elseif layer.speed then
+                layer.x = moveGroups[1].x * layer.speed
+                layer.y = moveGroups[1].y * layer.speed
 
-			end
-			
-		end
-		
-	end
-	
-	return Group
+                limitsHelper( layer, worldLimits )
+    
+            else
+                -- assign a speed based on position of layer
+                layer.x = moveGroups[1].x * 1 / index
+                layer.y = moveGroups[1].y * 1 / index
+                
+                limitsHelper( layer, worldLimits )
+
+            end
+            
+        end
+        
+    end
+    
+    return Group
 
 end
 M.newScene = newScene
