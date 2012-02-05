@@ -2,10 +2,10 @@
  PARALLAX CLASS
 ====================================================================
 
- Version: 0.6
- Made by Griffin Adams ( theIdeaMen ) 2011
+ Version: 0.7
+ Made by Griffin Adams ( theIdeaMen ) 2011-2012
  Twitter: http://www.twitter.com/theIdeaMen
- Mail: duff333@gmail.com
+ eMail: duff333@gmail.com
 
   MIT License
  You can use and change this code free of purgery or death as long
@@ -20,19 +20,8 @@
  CHANGES
 ====================================================================
 
-  7-18-2011 - Griffin Adams - Created
-  8-17-2011 - Griffin Adams - newLayer now returns an object
-							  - use yourScene.props.* to access scene properties
-							  - removed 1 pixel overlapping
-  9-05-2011 - Griffin Adams - replaced module() with table
-  9-29-2011 - Griffin Adams - Moved helper function
-                            - replaced content* with viewableContent*
- 10-01-2011 - Griffin Adams - replaced viewableContent* with screen size offset factor
-							  - multiple fixes for multiple screen sizes
-							  - fixed layers that appear to 'jump' if starting position
-							     was anything other than 0
-  1-11-2012 - Bob Dickinson - fixed multiple screen size issues, for real this time
-              Griffin Adams -
+ 02-05-2012 - Griffin Adams - Major update/rewrite
+                            - see 'Old' branch for previous history
 
 ====================================================================
  INFORMATION
@@ -52,7 +41,7 @@
 			height = [Y SCENE SIZE],
 			left = [SCENE X BEGINNING POS],
 			top = [SCENE Y BEGINNING POS],
-			[infinite = [REPEAT FOREVER, TRUE/FALSE]
+			[repeated = [REPEAT FOREVER, "horizontal","vertical","both"]
 		} )
 
 
@@ -63,13 +52,15 @@
 			image = [IMAGE NAME],
 			width = [IMAGE WIDTH],
 			height = [IMAGE HEIGHT],
-			top = [IMAGE Y POS],
+			[top = [IMAGE Y POS],]
+            [bottom = [IMAGE Y POS],]
 			left = [IMAGE X POS],
-			[speed = [HOW FAST, 0 - 1 for backgrounds, > 1 for foregrounds]],
-			[repeated = [INF SCROLL, TRUE/FALSE]]
+			speed = [HOW FAST, 0 - 1 for backgrounds, > 1 for foregrounds],
+			[repeated = [INF SCROLL, "horizontal","vertical","both"]]
 		} )
 
  NOTE: Create your layers in order from closest to farthest away
+ NOTE: All x/y coordinates should be in relation to the screen (not local)
 
 
  * To add objects to a layer
@@ -77,7 +68,7 @@
    yourScene:insertObj( object, [layer] )
 
  NOTE: If no layer specified, defaults to the top layer
-        From top back they are numbered 1 to # of Layers
+ 
 
 
  * To move a scene
