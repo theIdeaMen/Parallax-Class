@@ -2,16 +2,12 @@
 -- Parallax Class Demo main.lua
 -- Created by Griffin Adams
 --
--- Version: 0.3
+-- Version: 0.4
 --
 
 local parallax = require( "parallax" )
 
 display.setStatusBar( display.HiddenStatusBar )
-
---Center position of visible playing screen
-local center = display.contentCenterX
-local middle = display.contentCenterY
 
 
 ------------------------------------------------
@@ -20,47 +16,102 @@ local middle = display.contentCenterY
 -- create new parallax scene
 local myScene = parallax.newScene(
 {
-	width = 1920,
-	height = 320,
-	top = 0,
+	width = 1500,
+	height = 500,
+	bottom = 320,            -- So the bottom lines up with the bottom of the screen
 	left = 0,
-    infinite = false
+    repeated = false         -- Optional, repeated defaults to false
 } )
 
--- add the near layer
-local nearLayer = myScene:newLayer(
-{
-	image = "parallax_near.png",
-	width = 1280,
-	height = 320,
-	top = 0,
-	left = 0
-} )
-nearLayer.alpha = 0.7
-
--- add the far layer
+-- repeated grass foreground
 myScene:newLayer(
 {
-	image = "parallax_far.png",
-	width = 640,
-	height = 320,
-	top = 0,
+	image = "grass.png",
+	width = 410,               -- This is dimensions of the image
+	height = 62,
+	bottom = 320,              -- Sometimes it makes sense to use bottom/left
 	left = 0,
-	speed = 0.2,
-	repeated = true
+    speed = 1.4,
+    repeated = "horizontal"    -- You can choose "horizontal" "vertical" or "both" directions to repeat
 } )
 
--- create a box and add it to top layer (the top layer travels at same speed as player)
-local box = display.newRect( center, display.contentHeight - 50, 20, 50 )
-myScene:insertObj( box )
+-- repeated cloud layer
+myScene:newLayer(
+{
+	image = "clouds.png",
+	width = 629,
+	height = 61,
+	top = -216,                 -- Sometimes it makes sense to use top/left
+	left = 0,
+	speed = 1.2,
+	repeated = "horizontal"
+} )
 
--- add box to second layer
-box = display.newRect( center, middle - 25, 20, 50 )
-myScene:insertObj( box, 2 )
+-- left-most hills
+local leftHills = myScene:newLayer(
+{
+	image = "hills_left.png",
+	width = 500,
+	height = 188,
+	bottom = 320,
+	left = 0,
+	speed = 1                -- If speed is not defined, it will default to (1 / layer index)
+} )
 
--- add box to third layer
-box = display.newRect( center, 0, 20, 50 )
-myScene:insertObj( box, 3 )
+-- center hills
+local centerHills = myScene:newLayer(
+{
+	image = "hills_center.png",
+	width = 502,
+	height = 182,
+	bottom = 320,
+	left = leftHills.width,   -- Start these hills at the end of the left hills
+    speed = 1
+} )
+
+-- right hills
+myScene:newLayer(
+{
+	image = "hills_right.png",
+	width = 500,
+	height = 212,
+	bottom = 320,
+	left = leftHills.width + centerHills.width,
+    speed = 1
+} )
+
+-- repeated horizon background
+local ground = myScene:newLayer(
+{
+	image = "ground.png",
+	width = 480,
+	height = 106,
+	bottom = 320,
+	left = 0,
+    speed = 0.6,
+    repeated = "horizontal"
+} )
+
+-- repeated sky background
+local sky = myScene:newLayer(
+{
+	image = "sky.png",
+	width = 480,
+	height = 500,
+	top = -180,
+	left = 0,
+    speed = 1,
+    repeated = "horizontal"
+} )
+
+-- add a mountain to the background
+local mountain = display.newImageRect( "mountain.png", 618, 321 )
+
+myScene:insertObj( mountain, ground )      -- The mountain is now a part of the ground layer
+
+mountain:setReferencePoint( display.BottomLeftReferencePoint )
+mountain.x = 240
+mountain.y = 250
 
 
 ------------------------------------------------
@@ -75,12 +126,14 @@ local function onTouch( event )
 		display.getCurrentStage():setFocus( myScene, event.id )
 		-- store location as previous
 		myScene.xPrev = event.x
+        myScene.yPrev = event.y
 		
 	elseif phase == "moved" then
 		-- move scene as the event moves
-		myScene:move( myScene.xPrev - event.x, 0 )
+		myScene:move( event.x - myScene.xPrev, event.y - myScene.yPrev )
 		-- store location as previous
 		myScene.xPrev = event.x
+        myScene.yPrev = event.y
 	
 	elseif phase == "ended" or phase == "cancelled" then
 		-- un-focus scene
@@ -97,3 +150,5 @@ end
 -- Events
 --------------------------------------------
 myScene:addEventListener( "touch", onTouch )
+
+--timer.performWithDelay( 3000, function() print( collectgarbage("count"), system.getInfo("textureMemoryUsed") ) end, 0 )
