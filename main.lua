@@ -109,7 +109,7 @@ local mountain = display.newImageRect( "mountain.png", 618, 321 )
 
 myScene:insertObj( mountain, ground )      -- The mountain is now a part of the ground layer
 
-mountain:setReferencePoint( display.BottomLeftReferencePoint )
+mountain.anchorx = 0
 mountain.x = 240
 mountain.y = 250
 
