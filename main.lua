@@ -1,6 +1,7 @@
 --
 -- Parallax Class Demo main.lua
 -- Created by Griffin Adams
+-- Revised by Tim Catania
 --
 -- Version: 0.4
 --
