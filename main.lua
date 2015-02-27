@@ -118,6 +118,17 @@ mountain.y = 250
 ------------------------------------------------
 -- Functions
 ------------------------------------------------
+
+----- For continous scrolling comment out 
+----- the "onTouch" function below and remove comments from the "screenScroll" event.
+--local function screenScroll( event )
+--	local object = event.target
+--	display.getCurrentStage():setFocus( myScene, event.id )
+--	myScene:move( myScene.x - 1, myScene.y - 1 )
+--end
+
+--timer.performWithDelay( 1, screenScroll, 0 )
+
 local function onTouch( event )
 
 	local phase = event.phase
