@@ -3,7 +3,7 @@
 -- Created by Griffin Adams
 -- Revised by Tim Catania
 --
--- Version: 0.4
+-- Version: 0.5
 --
 
 local parallax = require( "parallax" )
