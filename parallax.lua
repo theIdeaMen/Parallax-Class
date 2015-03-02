@@ -3,7 +3,7 @@ local M = {}
 -- PARALLAX CLASS
 --====================================================================--
 --
--- Version: 0.7
+-- Version: 0.8
 -- Made by Griffin Adams ( theIdeaMen ) 2011-2012
 -- Twitter: http://www.twitter.com/theIdeaMen
 -- eMail: duff333@gmail.com
@@ -20,7 +20,7 @@ local M = {}
 --====================================================================--        
 -- CHANGES
 --====================================================================--
---
+-- 03-02-2015 - Tim Catania   - Replaced depreciated setReferencePoint
 -- 02-05-2012 - Griffin Adams - Major update/rewrite
 --                            - see 'Old' branch for previous history
 --
