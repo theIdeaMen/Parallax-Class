@@ -1,19 +1,8 @@
--- Revised by Tim Catania
-
-Below you'll find the original README created by Griffin Adams. 
-I have taken his work and updated it so that it will work with Graphics 2.0.
-Main changes were removing the "setReferencePoint" sections to and setting them as "anchorpoints".
-Please feel free to correct any issues you find in the adjusted code.
-
-Thanks!
-
-Tim (@timcatania)
-
 ====================================================================      
  PARALLAX CLASS
 ====================================================================
 
- Version: 0.7
+ Version: 0.8
  Made by Griffin Adams ( theIdeaMen ) 2011-2012
  Twitter: http://www.twitter.com/theIdeaMen
  eMail: duff333@gmail.com
@@ -31,6 +20,7 @@ Tim (@timcatania)
  CHANGES
 ====================================================================
 
+ 03-02-2015 - Tim Catania   - Replaced depreciated setReferencePoint
  02-05-2012 - Griffin Adams - Major update/rewrite
                             - see 'Old' branch for previous history
 
