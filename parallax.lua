@@ -334,9 +334,9 @@ local function makeCopies( group, worldLimits )
         for i = 2, xCopies do
             group.bgX[i] = display.newImageRect( group, group.image, group.bgX[1].width, group.bgX[1].height )
             if ( group.top ) then
-                group.bgX[i]:setReferencePoint( display.TopLeftReferencePoint )
+                group.bgX[i].anchorx = 0
             elseif ( group.bottom ) then
-                group.bgX[i]:setReferencePoint( display.BottomLeftReferencePoint )
+                group.bgX[i].anchorx = 1
             end
             group.bgX[i].x = ( group.bgX[1].width * ( i - 1 ) ) + worldLimits.XMin
             group.bgX[i].y = group.bgX[1].y
@@ -352,10 +352,10 @@ local function makeCopies( group, worldLimits )
         for i = 2, yCopies do
             group.bgY[i] = display.newImageRect( group, group.image, group.bgY[1].width, group.bgY[1].height )
             if ( group.top ) then
-                group.bgY[i]:setReferencePoint( display.TopLeftReferencePoint )
+                group.bgY[i].anchorx = 0
                 group.bgY[i].y = group.bgY[1].y + ( group.bgY[1].height * ( i - 1 ) )
             elseif ( group.bottom ) then
-                group.bgY[i]:setReferencePoint( display.BottomLeftReferencePoint )
+                group.bgY[i].anchorx = 1
                 group.bgY[i].y = group.bgY[1].y - ( group.bgY[1].height * ( i - 1 ) )
             end
             group.bgY[i].x = group.bgY[1].x
@@ -380,10 +380,10 @@ local function makeCopies( group, worldLimits )
             for j = 1, yCopies do
                 group.bgY[i][j] = display.newImageRect( group, group.image, group.bgX[1].width, group.bgX[1].height )
                 if ( group.top ) then
-                    group.bgY[i][j]:setReferencePoint( display.TopLeftReferencePoint )
+                    group.bgY[i][j].anchorx = 0
                     group.bgY[i][j].y = group.bgX[1].y + ( group.bgX[1].height * ( j - 1 ) )
                 elseif ( group.bottom ) then
-                    group.bgY[i][j]:setReferencePoint( display.BottomLeftReferencePoint )
+                    group.bgY[i][j].anchorx = 1
                     group.bgY[i][j].y = group.bgX[1].y - ( group.bgX[1].height * ( j - 1 ) )
                 end
                 group.bgY[i][j].x = ( group.bgX[1].width * ( i - 1 ) ) + worldLimits.XMin
@@ -418,7 +418,8 @@ local function newScene( params )
     
     local verticalMin
     
-    Group:setReferencePoint( display.TopLeftReferencePoint )
+    Group.anchorx = 0
+    Group.anchory = 0
     
     if ( top ) then
         top = top - screenOffsetH
@@ -479,12 +480,12 @@ local function newScene( params )
         if ( top ) then
             top = top
             xLocal, yLocal = Group:contentToLocal(left, top)
-            moveGroups[groupCount].bgX[1]:setReferencePoint( display.TopLeftReferencePoint )
+            moveGroups[groupCount].bgX[1].anchorx = 0
             
         elseif ( bottom ) then
             bottom = bottom + screenOffsetH
             xLocal, yLocal = Group:contentToLocal(left, bottom)
-            moveGroups[groupCount].bgX[1]:setReferencePoint( display.BottomLeftReferencePoint )
+            moveGroups[groupCount].bgX[1].anchorx = 0
             
         end
 
